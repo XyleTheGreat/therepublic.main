@@ -1,0 +1,326 @@
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The People's Republic of Aesthrella — Main Site</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style id="theme-styles">
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+        
+        :root { 
+            --primary: #ef4444; 
+            --primary-dark: #450a0a;
+            --primary-soft: #7f1d1d;
+            --bg: #0d0101; 
+            --accent: #fee2e2; 
+            --gold: #ffd700; 
+        }
+
+        body { font-family: 'Space+Mono', monospace; background-color: var(--bg); color: var(--accent); transition: all 0.8s ease; position: relative; min-height: 100vh; overflow-x: hidden; }
+        
+        .red-glass { background: rgba(0,0,0, 0.6); backdrop-filter: blur(8px); border: 1px solid var(--primary); }
+        .nav-button { background: #1a0505; border: 1px solid var(--primary-dark); color: var(--primary-soft); transition: all 0.2s; font-size: 8px; }
+        .nav-button.active { background: var(--primary); color: white; box-shadow: 0 0 15px var(--primary); border-color: white; }
+
+        #canvas-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+        
+        #newsContainer { height: 24px; overflow: hidden; position: relative; width: 100%; }
+        .news-item { height: 24px; display: flex; align-items: center; position: absolute; width: 100%; opacity: 0; transform: translateY(100%); transition: all 0.6s; }
+        .news-item.active { opacity: 1; transform: translateY(0); }
+
+        .status-badge { font-size: 8px; font-weight: bold; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; background: rgba(0,0,0,0.8); border: 1px solid var(--primary); color: var(--primary); }
+        .rank-num { font-weight: 900; color: var(--primary); min-width: 25px; font-style: italic; font-size: 12px; }
+        
+        .rank-gold { border: 1px solid var(--gold) !important; background: rgba(255, 215, 0, 0.1) !important; box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        .rank-gold .rank-num { color: var(--gold) !important; }
+
+        #receiptOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        
+        .reward-btn { cursor: pointer; transition: all 0.3s; border: 1px solid var(--primary-dark); }
+        .reward-btn:hover { border-color: var(--gold); background: rgba(255, 215, 0, 0.05); }
+
+        .conv-input { background: rgba(255,0,0,0.05); border: 1px solid var(--primary-dark); padding: 10px; color: white; width: 100%; outline: none; text-align: center; font-weight: bold; }
+        .swap-btn { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; background: var(--primary); color: white; border-radius: 50%; cursor: pointer; }
+    </style>
+</head>
+<body class="theme-active">
+
+    <canvas id="canvas-overlay"></canvas>
+
+    <div id="statusBar" class="bg-primary text-white text-[9px] py-1 font-black px-4 flex justify-between items-center sticky top-0 z-50 transition-colors duration-500">
+        <span><i class="fas fa-shield-halved mr-2"></i>🧿 YOU ARE BEING MONITORED BY THE GOVERNMENT</span>
+        <span id="phtClock">LOCAL TIME : --:--:--</span>
+    </div>
+
+    <div class="bg-black border-b border-primary-dark py-1.5 flex items-center">
+        <div id="broadcastLabel" class="bg-primary text-black px-2 py-0.5 text-[9px] font-black z-10 shrink-0 mx-2 uppercase">Broadcast</div>
+        <div id="newsContainer" class="flex-grow"></div>
+    </div>
+
+    <header class="max-w-6xl mx-auto px-4 mt-8 mb-6 text-center">
+        <h1 id="mainTitle" class="text-xl md:text-3xl font-black uppercase tracking-tighter text-primary">THE PEOPLE'S REPUBLIC OF AESTHRELLA</h1>
+        <h2 class="text-[13px] tracking-widest opacity-60 uppercase mt-1">Ang Sangkatauhang Republika ng Estrelya</h2>
+        <h3 class="text-[12px] tracking-widest opacity-60 uppercase mt-1">MAIN REPUBLIC PANEL AND REPOSITORY</h3>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-4 mb-4 space-y-2">
+        <div class="grid grid-cols-4 md:grid-cols-10 gap-1.5">
+            <button onclick="setView('registry')" id="btnReg" class="nav-button active py-2 font-bold uppercase">List of Citizens</button>
+            <button onclick="setView('progress')" id="btnProg" class="nav-button py-2 font-bold uppercase">Propagandas</button>
+            <button onclick="setView('leaderboard')" id="btnLead" class="nav-button py-2 font-bold uppercase">Citizen Standings</button>
+            <button onclick="setView('regions')" id="btnRegs" class="nav-button py-2 font-bold uppercase">REGIONAL RANKINGS</button>
+            <button onclick="setView('announcements')" id="btnAnn" class="nav-button py-2 font-bold uppercase">National & Regional Updates</button>
+            <button onclick="setView('quotes')" id="btnQuote" class="nav-button py-2 font-bold uppercase">Motivational Quotes</button>
+            <button onclick="setView('events')" id="btnEvent" class="nav-button py-2 font-bold uppercase">National Events</button>
+            <button onclick="setView('rewards')" id="btnReward" class="nav-button py-2 font-bold uppercase">The Bla³ Bleu³</button>
+            <button onclick="setView('facts')" id="btnFact" class="nav-button py-2 font-bold uppercase">National Historical Facts</button>
+            <button onclick="setView('converters')" id="btnConv" class="nav-button py-2 font-bold uppercase">Converters</button>
+        </div>
+        <div class="red-glass p-2 rounded flex gap-2 items-center">
+            <i class="fas fa-user-secret text-sm ml-2 opacity-50"></i>
+            <input type="text" id="searchInput" oninput="renderList()" class="bg-transparent flex-grow p-1.5 text-xs uppercase text-white outline-none" placeholder="Search Global Database...">
+        </div>
+    </section>
+
+    <main class="max-w-4xl mx-auto px-4 pb-20" id="mainContainer"></main>
+
+    <div id="receiptOverlay">
+        <div class="red-glass p-10 max-w-sm w-full text-center border-t-[12px] border-primary shadow-2xl">
+            <h2 class="text-xl font-black text-primary mb-1 tracking-tighter">OFFICIAL TREASURY RECEIPT</h2>
+            <p class="text-[8px] uppercase opacity-50 mb-6">National Bank of Aesthrella</p>
+            <div class="border-y border-primary-dark/30 py-6 my-4 space-y-3 bg-black/40">
+                <p class="text-[9px] uppercase font-bold tracking-widest text-primary-soft">Total Reward Amount</p>
+                <p class="text-4xl font-black text-white" id="rewardAmountDisplay">0.00 AET</p>
+                <div class="pt-4">
+                    <p class="text-[8px] opacity-40 uppercase">Verification ID</p>
+                    <p class="text-[10px] font-mono font-bold text-primary" id="txnIdDisplay">AES-XXXX-XXXX</p>
+                </div>
+            </div>
+            <p class="text-[9px] text-white/70 mb-8 uppercase leading-tight">Screenshot this entire receipt and present it to the President to credit your account.</p>
+            <button onclick="closeReceipt()" class="w-full bg-primary hover:opacity-80 text-white py-3 text-[10px] font-black uppercase transition-colors">Terminate Record</button>
+        </div>
+    </div>
+
+    <script>
+        /** * ADMIN COLOR CONFIGURATION
+         * Options: 'red', 'blue', 'green', 'yellow', 'purple'
+         */
+        const THEME_CONFIG = {
+            current: 'blue', 
+            colors: {
+                red:    { primary: '#ef4444', dark: '#450a0a', soft: '#7f1d1d', bg: '#0d0101' },
+                blue:   { primary: '#3b82f6', dark: '#172554', soft: '#1e3a8a', bg: '#01080d' },
+                green:  { primary: '#22c55e', dark: '#052e16', soft: '#14532d', bg: '#010d04' },
+                yellow: { primary: '#eab308', dark: '#422006', soft: '#713f12', bg: '#0d0d01' },
+                purple: { primary: '#a855f7', dark: '#3b0764', soft: '#581c87', bg: '#09010d' }
+            }
+        };
+
+        const CITIZENS = [
+            { id: "001", name: "JAKE NAQUILA", address: "New Aesthrella City", status: "President", points: 1580 },
+            { id: "002", name: "JENINA ROSE LUNIZA", address: "Lunarea Uno, Lunarea", status: "Minister of Foreign Affairs", points: 41.3 },
+            { id: "003", name: "KYRIE KNISJAH ALOJADO", address: "Central District, Avar Tares", status: "Citizen", points: 8.7 },
+            { id: "004", name: "JHOANA MAE OLARTE", address: "Central District, Avar Tares", status: "Minister of Agriculture", points: 3.3 },
+            { id: "005", name: "HONEY GRACE COMAWAS", address: "Lunarea Uno, Lunarea", status: "Citizen", points: 81.12 },
+            { id: "006", name: "CHRIS SEVILLA", address: "Lunarea Uno, Lunarea", status: "Minister of Transportation", points: 50.6 },
+            { id: "007", name: "MARIA VIKTORIA ELIJAH RAMOS", address: "Anwar, Yepertaristoshve", status: "Citizen", points: 31.5 },
+            { id: "008", name: "REX AIDAN PERALTA", address: "Cadagaya, Laundon", status: "Citizen", points: 2.7 },
+            { id: "009", name: "LIAM MENDOZA", address: "Kartava Uno, Avar Tares", status: "Citizen", points: 2.1 },
+            { id: "010", name: "JOHN PAUL LERIN", address: "Sentro Tinin-ayon, Tinin-ayon", status: "Citizen", points: 0 },
+            { id: "011", name: "JASMINE BUCIO", address: "Kartava Dos, Avar Tares", status: "Citizen", points: 0.3 }
+        ];
+
+        const REGIONS = [
+            { name: "LUNAREA", score: 91.3, activity: "High", status: "Most Progressive" },
+            { name: "AVAR TARES", score: 87.2, activity: "High", status: "Active" },
+            { name: "YEPERTARISTOSHVE", score: 78, activity: "Moderate", status: "Stable" },
+            { name: "LAUNDON", score: 50, activity: "Low", status: "Developing" },
+            { name: "TININ-AYON", score: 28, activity: "Minimal", status: "Dormant" }
+        ];
+
+        /* ADMIN: ADD MANUAL REWARDS HERE. Set claimed: true to hide them. */
+        let MANUAL_REWARDS = [
+            //{ id: "R1", title: "BLA³ BLEU³", statement: "Claim your Bla³ Bleu³ reward!", date: "FEB 2026", claimed: false }
+        ];
+
+        const NEWS_ITEMS = ["OFFICIAL PASSPORT REGISTRATION FORM HAS BEEN ESTABLISHED", "FIRST-EVER AET MARKET USAGE NOW HAS VALUE INSIDE THE AESTHRELLAN COMMUNITY","KUNDENKARTE WEBSITE, SOON TO BE PUBLISHED", "AESTHRELLA TO FORM DIPLOMATIC RELATIONS WITH THE FEDERATION OF ANTALES","AESTHRELLAN GOV'T ENHANCES NATIONAL SECURITY","LUNAREA OBLAST HAILS AS THE MOST PROGRESSIVE REGION","STAY LOYAL TO THE REPUBLIC","LARPWAFFEN THREATENS AESTHRELLA","AESTRELLAN PASSPORTS NOW SHOWCASED IN PUBLIC"];
+        const ANNOUNCEMENTS = [{ header: "TRANSPORTATION PROGRESS", body: "Ministry of Transportation announced touring of registered buses." },{header: "HGAIA NOW OPENED TO PUBLIC", body: "The Hon. Galicano Aladad International Airport (HGAIA) is now being showcased to the general public. This said airport is a dedication to the late grandfather and Head Advisor of the President, Hon. Galicano O. Aladad."}];
+        const QUOTES = [{ text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "F.D.R" }];
+        const FACTS = ["The Independence of Aesthrella is on July 18, 2022.","Lunarea is the most progressive region since January 2026.", "The Republic strictly prohibits dual-citizenship.", "The shortest term for Vice President goes to Former Vice President Elaine Valmadrid, who only ruled for 3 days and was impeached due to inactivity."];
+        const EVENTS = [{ title: "EVENT NOT FOUND.", date: "NAN", desc: "There are no events for now." }];
+
+        let activeView = 'registry';
+        let currentQuoteIndex = 0;
+        let currentFactIndex = 0;
+        let ptsToAet = true;
+        let aetToPhp = true;
+
+        // Apply Theme on Load
+        function applyTheme() {
+            const theme = THEME_CONFIG.colors[THEME_CONFIG.current];
+            const root = document.documentElement;
+            root.style.setProperty('--primary', theme.primary);
+            root.style.setProperty('--primary-dark', theme.dark);
+            root.style.setProperty('--primary-soft', theme.soft);
+            root.style.setProperty('--bg', theme.bg);
+            
+            // Force Tailwind class updates for dynamic elements
+            document.getElementById('statusBar').style.backgroundColor = theme.primary;
+            document.getElementById('broadcastLabel').style.backgroundColor = theme.primary;
+            document.getElementById('mainTitle').style.color = theme.primary;
+        }
+
+        /** ADMIN FUNCTION: Call resetRewards() in console to bring back items **/
+        function resetRewards() {
+            MANUAL_REWARDS.forEach(r => r.claimed = false);
+            renderList();
+        }
+
+        function setView(view) {
+            activeView = view;
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            const mapping = { 'registry': 'btnReg', 'progress': 'btnProg', 'leaderboard': 'btnLead', 'regions': 'btnRegs', 'announcements': 'btnAnn', 'quotes': 'btnQuote', 'events': 'btnEvent', 'rewards': 'btnReward', 'facts': 'btnFact', 'converters': 'btnConv' };
+            if(mapping[view]) document.getElementById(mapping[view]).classList.add('active');
+            renderList();
+        }
+
+        function renderList() {
+            const container = document.getElementById('mainContainer');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            container.innerHTML = "";
+
+            if (activeView === 'rewards') {
+                container.innerHTML = `<h2 class="text-xs font-black text-primary uppercase mb-4 tracking-widest text-center">Active Rewards (Bla³ Bleu³)</h2>`;
+                const visibleRewards = MANUAL_REWARDS.filter(r => !r.claimed && (r.title.toLowerCase().includes(search) || r.statement.toLowerCase().includes(search)));
+                
+                if(visibleRewards.length === 0) {
+                    container.innerHTML += `<p class="text-center opacity-40 text-[10px]">NO PENDING REWARDS AVAILABLE.</p>`;
+                }
+
+                visibleRewards.forEach(r => {
+                    container.innerHTML += `
+                        <div class="red-glass p-4 mb-3 reward-btn flex justify-between items-center" onclick="claimReward('${r.id}')">
+                            <div class="space-y-1">
+                                <h3 class="text-[11px] font-black text-white uppercase">${r.title}</h3>
+                                <p class="text-[9px] text-primary opacity-80 italic">${r.statement}</p>
+                                <p class="text-[8px] opacity-40 uppercase">RELEASE DATE: ${r.date}</p>
+                            </div>
+                            <div class="text-[9px] font-black text-white bg-primary px-2 py-1 uppercase">Claim Reward</div>
+                        </div>`;
+                });
+                return;
+            }
+
+            if (activeView === 'converters') {
+                container.innerHTML = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="red-glass p-6 text-center">
+                            <h2 class="text-xs font-black text-primary uppercase mb-4">AET EXCHANGE</h2>
+                            <div class="flex flex-col items-center gap-3">
+                                <input type="number" id="inputA" oninput="handlePointConv()" class="conv-input" placeholder="${ptsToAet ? 'Points' : 'AET'}">
+                                <div class="swap-btn" onclick="ptsToAet = !ptsToAet; renderList();"><i class="fas fa-sync-alt"></i></div>
+                                <input type="text" id="inputB" class="conv-input" readonly placeholder="Result">
+                            </div>
+                        </div>
+                        <div class="red-glass p-6 text-center">
+                            <h2 class="text-xs font-black text-primary uppercase mb-4">PHP CONVERTER</h2>
+                            <div class="flex flex-col items-center gap-3">
+                                <input type="number" id="inputC" oninput="handlePhpConv()" class="conv-input" placeholder="${aetToPhp ? 'AET' : 'PHP'}">
+                                <div class="swap-btn" onclick="aetToPhp = !aetToPhp; renderList();"><i class="fas fa-sync-alt"></i></div>
+                                <input type="text" id="inputD" class="conv-input" readonly placeholder="Result">
+                            </div>
+                        </div>
+                    </div>`;
+                return;
+            }
+
+            if (activeView === 'regions') {
+                REGIONS.sort((a,b) => b.score - a.score).filter(r => r.name.toLowerCase().includes(search)).forEach((r, i) => {
+                    const isGold = i === 0;
+                    container.innerHTML += `<div class="red-glass mb-2 p-4 flex justify-between items-center ${isGold ? 'rank-gold' : ''}"><div class="flex items-center gap-4"><span class="rank-num">#${i+1}</span><div><div class="text-[11px] font-black uppercase">${r.name}</div><div class="text-[8px] opacity-60 uppercase">ACTIVITY: ${r.activity}</div></div></div><div class="text-right"><span class="status-badge">${r.status}</span><div class="text-[10px] font-bold mt-1">${r.score}% GROWTH</div></div></div>`;
+                });
+            } else if (activeView === 'registry' || activeView === 'leaderboard') {
+                let data = [...CITIZENS];
+                if (activeView === 'leaderboard') data.sort((a,b) => b.points - a.points);
+                data.filter(c => c.name.toLowerCase().includes(search) || c.id.toLowerCase().includes(search)).forEach((c, i) => {
+                    container.innerHTML += `<div class="red-glass mb-2 p-4 flex justify-between border-l-4 border-primary"><div><div class="flex items-center gap-3">${activeView === 'leaderboard' ? `<span class="rank-num">#${i+1}</span>` : ''}<span class="text-[11px] font-black uppercase text-white">${c.name}</span><span class="status-badge">${c.status}</span></div><div class="text-[9px] opacity-60 uppercase">CRN: ${c.id} | ADDR: ${c.address}</div></div><div class="text-right text-[11px] font-black text-primary">${c.points} PTS</div></div>`;
+                });
+            } else if (activeView === 'announcements') {
+                ANNOUNCEMENTS.filter(a => a.header.toLowerCase().includes(search)).forEach(a => {
+                    container.innerHTML += `<div class="red-glass p-6 mb-4 border-l-4 border-primary"><h2 class="text-sm font-black uppercase mb-2">${a.header}</h2><p class="text-[11px] italic">"${a.body}"</p></div>`;
+                });
+            } else if (activeView === 'events') {
+                EVENTS.filter(e => e.title.toLowerCase().includes(search)).forEach(e => {
+                    container.innerHTML += `<div class="red-glass p-6 mb-4 border-r-4 border-primary"><div class="flex justify-between items-start"><h2 class="text-sm font-black text-primary uppercase tracking-widest">${e.title}</h2><span class="text-[9px] bg-primary-dark px-2 py-1">${e.date}</span></div><p class="text-[11px] opacity-80 mt-2 italic">"${e.desc}"</p></div>`;
+                });
+            } else if (activeView === 'facts') {
+                container.innerHTML = `<div class="red-glass p-12 text-center"><p class="text-[13px] italic">"${FACTS[currentFactIndex]}"</p></div>`;
+            } else if (activeView === 'quotes') {
+                const q = QUOTES[currentQuoteIndex];
+                container.innerHTML = `<div class="red-glass p-12 text-center"><p class="text-[14px] italic">"${q.text}"</p><span class="text-[11px] text-primary mt-4 block">— ${q.author}</span></div>`;
+            }
+        }
+
+        function claimReward(rewardId) {
+            const reward = MANUAL_REWARDS.find(r => r.id === rewardId);
+            if(reward) {
+                reward.claimed = true;
+                const amount = (Math.random() * (3.5 - 0.8) + 0.8).toFixed(2);
+                const id = "AET-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+                document.getElementById('rewardAmountDisplay').innerText = `${amount} AET`;
+                document.getElementById('txnIdDisplay').innerText = `VERIFY ID: ${id}`;
+                document.getElementById('receiptOverlay').style.display = 'flex';
+                renderList(); // Update UI to remove the button
+            }
+        }
+
+        function closeReceipt() { document.getElementById('receiptOverlay').style.display = 'none'; }
+
+        function handlePointConv() {
+            const val = parseFloat(document.getElementById('inputA').value) || 0;
+            const res = document.getElementById('inputB');
+            res.value = ptsToAet ? (val / 0.3).toFixed(2) : (val * 0.3).toFixed(2);
+        }
+
+        function handlePhpConv() {
+            const val = parseFloat(document.getElementById('inputC').value) || 0;
+            const res = document.getElementById('inputD');
+            res.value = aetToPhp ? (val * 0.25).toFixed(2) : (val / 0.25).toFixed(2);
+        }
+
+        setInterval(() => {
+            const pht = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Manila', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(new Date());
+            const clock = document.getElementById('phtClock');
+            if(clock) clock.innerText = `LOCAL TIME : ${pht}`;
+        }, 1000);
+
+        let currentNewsIndex = 0;
+        function initNews() {
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = "";
+            NEWS_ITEMS.forEach(text => {
+                const div = document.createElement('div');
+                div.className = `news-item text-[10px] font-bold uppercase text-primary px-4`;
+                div.innerText = text;
+                container.appendChild(div);
+            });
+            setInterval(() => {
+                const items = document.querySelectorAll('.news-item');
+                items.forEach((item, i) => {
+                    item.classList.remove('active');
+                    if (i === currentNewsIndex) item.classList.add('active');
+                });
+                currentNewsIndex = (currentNewsIndex + 1) % items.length;
+            }, 3000);
+        }
+
+        // Initialize
+        applyTheme();
+        initNews();
+        renderList();
+    </script>
+</body>
+</html>
