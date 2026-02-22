@@ -1,4 +1,3 @@
-</html>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,13 +104,11 @@
     </div>
 
     <script>
-        /** * ADMIN COLOR CONFIGURATION
-         * Options: 'red', 'blue', 'green', 'yellow', 'purple'
-         */
         const THEME_CONFIG = {
-            current: 'blue', 
+            current: 'black', 
             colors: {
                 red:    { primary: '#ef4444', dark: '#450a0a', soft: '#7f1d1d', bg: '#0d0101' },
+                black:  { primary: '#171717', dark: '#0a0a0a', soft: '#262626', bg: '#020202' },
                 blue:   { primary: '#3b82f6', dark: '#172554', soft: '#1e3a8a', bg: '#01080d' },
                 green:  { primary: '#22c55e', dark: '#052e16', soft: '#14532d', bg: '#010d04' },
                 yellow: { primary: '#eab308', dark: '#422006', soft: '#713f12', bg: '#0d0d01' },
@@ -122,43 +119,57 @@
         const CITIZENS = [
             { id: "001", name: "JAKE NAQUILA", address: "New Aesthrella City", status: "President", points: 0 },
             { id: "002", name: "JENINA ROSE LUNIZA", address: "Lunarea Uno, Lunarea", status: "Minister of Foreign Affairs", points: 42.6 },
-            { id: "003", name: "KYRIE KNISJAH ALOJADO", address: "Central District, Avar Tares", status: "Citizen", points: 9.6 },
+            { id: "003", name: "KYRIE KNISJAH ALOJADO", address: "Central District, Avar Tares", status: "Citizen", points: 10.8 },
             { id: "004", name: "JHOANA MAE OLARTE", address: "Central District, Avar Tares", status: "Minister of Agriculture", points: 3.6 },
-            { id: "005", name: "HONEY GRACE COMAWAS", address: "Lunarea Uno, Lunarea", status: "Citizen", points: 85.45 },
-            { id: "006", name: "CHRIS SEVILLA", address: "Lunarea Uno, Lunarea", status: "Minister of Transportation", points: 54.5 },
+            { id: "005", name: "HONEY GRACE COMAWAS", address: "Lunarea Uno, Lunarea", status: "Citizen", points: 140.05 },
+            { id: "006", name: "CHRIS SEVILLA", address: "Lunarea Uno, Lunarea", status: "Minister of Transportation", points: 59.1 },
             { id: "007", name: "MARIA VIKTORIA ELIJAH RAMOS", address: "Anwar, Yepertaristoshve", status: "Citizen", points: 31.5 },
-            { id: "008", name: "REX AIDAN PERALTA", address: "Cadagaya, Laundon", status: "Citizen", points: 3.3 },
+            { id: "008", name: "REX AIDAN PERALTA", address: "Cadagaya, Laundon", status: "Citizen", points: 3.9 },
             { id: "009", name: "LIAM MENDOZA", address: "Kartava Uno, Avar Tares", status: "Citizen", points: 2.7 },
             { id: "010", name: "JOHN PAUL LERIN", address: "Sentro Tinin-ayon, Tinin-ayon", status: "Citizen", points: 0 },
-            { id: "011", name: "JASMINE BUCIO", address: "Kartava Dos, Avar Tares", status: "Citizen", points: 1.2 }
+            { id: "011", name: "JASMINE BUCIO", address: "Kartava Dos, Avar Tares", status: "Citizen", points: 2.4 }
         ];
 
         const REGIONS = [
-            { name: "LUNAREA", score: 91.3, activity: "High", status: "Most Progressive" },
-            { name: "AVAR TARES", score: 87.2, activity: "High", status: "Active" },
-            { name: "YEPERTARISTOSHVE", score: 78, activity: "Moderate", status: "Stable" },
-            { name: "LAUNDON", score: 50, activity: "Low", status: "Developing" },
-            { name: "TININ-AYON", score: 28, activity: "Minimal", status: "Dormant" }
+            { name: "LUNAREA", score: 91.7, activity: "High", status: "Most Progressive" },
+            { name: "AVAR TARES", score: 88, activity: "High", status: "Active" },
+            { name: "YEPERTARISTOSHVE", score: 79.2, activity: "Moderate", status: "Stable" },
+            { name: "LAUNDON", score: 56.5, activity: "Low", status: "Developing" },
+            { name: "TININ-AYON", score: 35, activity: "Minimal", status: "Dormant" }
         ];
 
-        /* ADMIN: ADD MANUAL REWARDS HERE. Set claimed: true to hide them. */
-        let MANUAL_REWARDS = [
-            //{ id: "R1", title: "BLA³ BLEU³", statement: "Claim your Bla³ Bleu³ reward!", date: "FEB 2026", claimed: false }
-        ];
-
-        const NEWS_ITEMS = ["OFFICIAL PASSPORT REGISTRATION FORM HAS BEEN ESTABLISHED", "FIRST-EVER AET MARKET USAGE NOW HAS VALUE INSIDE THE AESTHRELLAN COMMUNITY","KUNDENKARTE WEBSITE, SOON TO BE PUBLISHED", "AESTHRELLA TO FORM DIPLOMATIC RELATIONS WITH THE FEDERATION OF ANTALES","AESTHRELLAN GOV'T ENHANCES NATIONAL SECURITY","LUNAREA OBLAST HAILS AS THE MOST PROGRESSIVE REGION","STAY LOYAL TO THE REPUBLIC","LARPWAFFEN THREATENS AESTHRELLA","AESTRELLAN PASSPORTS NOW SHOWCASED IN PUBLIC"];
+        const NEWS_ITEMS = ["OFFICIAL PASSPORT REGISTRATION FORM HAS BEEN ESTABLISHED", "NEW AESTHRELLAN MINECRAFT SERVER IS NOW UNDER CREATION","FIRST-EVER AET MARKET USAGE NOW HAS VALUE INSIDE THE AESTHRELLAN COMMUNITY","KUNDENKARTE WEBSITE, SOON TO BE PUBLISHED", "AESTHRELLA TO FORM DIPLOMATIC RELATIONS WITH THE FEDERATION OF ANTALES","AESTHRELLAN GOV'T ENHANCES NATIONAL SECURITY","LUNAREA OBLAST HAILS AS THE MOST PROGRESSIVE REGION","AESTHRELLA DENOUNCED ARCADIA","LARPWAFFEN THREATENS AESTHRELLA","AESTRELLAN PASSPORTS NOW SHOWCASED IN PUBLIC"];
         const ANNOUNCEMENTS = [{ header: "TRANSPORTATION PROGRESS", body: "Ministry of Transportation announced touring of registered buses issued by its Transportation Minister Hon. Chris Sevilla. The said opening of bus tour started at Dersavica and successfully arrived at the Mainland Aesthrella , particularly to the main capital — New Aesthrella City. New license plates also showed to the general public as a proof of transportation progress."},{header: "HGAIA NOW OPENED TO PUBLIC", body: "The Hon. Galicano Aladad International Airport (HGAIA) is now being showcased to the general public. This said airport is a dedication to the late grandfather and Head Advisor of the President, Hon. Galicano O. Aladad. The opening of the airport marked a significant milestone in the Republic's history. Following the opening is the flight of Aesthrellan Air B317, which is the first-ever registered airplane situated in the HGAIA and first ever registered airplane in the Aesthrellan history."},{header : "NEW PASSPORT SYSTEM FOR AESTHRELLANS", body : "The People's Republic of Aesthrella President Jake Naquila, now issued a system wherein citizens can now have their own passports by registering on it via the Official Passport Registration Form and has a fee of 40 AET (₱10.00). The said passport is a revolutionary improvement to the ever-growing progress of the Republic."}];
-        const QUOTES = [{ text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "F.D.R" }];
-        const FACTS = ["The Independence of Aesthrella is on July 18, 2022.","Lunarea is the most progressive region since January 2026.", "The Republic strictly prohibits dual-citizenship.", "The shortest term for Vice President goes to Former Vice President Elaine Valmadrid, who only ruled for 3 days and was impeached due to inactivity."];
+        
+        const QUOTES = [
+            { text: "The only limit to our realization of tomorrow will be our doubts of today.", author: "F.D.R" },
+            { text: "Unity is strength... when there is teamwork and collaboration, wonderful things can be achieved.", author: "Mattie Stepanek" }
+        ];
+
+        const FACTS = [
+            "The Independence of Aesthrella is on July 18, 2022.",
+            "Lunarea is the most progressive region since January 2026.", 
+            "The Republic strictly prohibits dual-citizenship.", 
+            "The shortest term for Vice President goes to Former Vice President Elaine Valmadrid, who only ruled for 3 days."
+        ];
+
+        const PROPAGANDAS = [
+            "STAY LOYAL TO THE REPUBLIC.",
+            "STRENGTH IN UNITY, POWER IN LOYALTY.",
+            "AESTHRELLA ABOVE ALL.",
+            "YOUR CONTRIBUTION IS THE REPUBLIC'S PROGRESS.",
+            "GLORY TO THE PEOPLE'S REPUBLIC."
+        ];
+
         const EVENTS = [{ title: "Vath-ak-Corred", date: "Whole Month of February", desc: "The month of love for the People's Republic of Aesthrella." }];
 
         let activeView = 'registry';
         let currentQuoteIndex = 0;
         let currentFactIndex = 0;
+        let currentPropIndex = 0;
         let ptsToAet = true;
         let aetToPhp = true;
 
-        // Apply Theme on Load
         function applyTheme() {
             const theme = THEME_CONFIG.colors[THEME_CONFIG.current];
             const root = document.documentElement;
@@ -166,17 +177,23 @@
             root.style.setProperty('--primary-dark', theme.dark);
             root.style.setProperty('--primary-soft', theme.soft);
             root.style.setProperty('--bg', theme.bg);
-            
-            // Force Tailwind class updates for dynamic elements
             document.getElementById('statusBar').style.backgroundColor = theme.primary;
             document.getElementById('broadcastLabel').style.backgroundColor = theme.primary;
             document.getElementById('mainTitle').style.color = theme.primary;
         }
 
-        /** ADMIN FUNCTION: Call resetRewards() in console to bring back items **/
-        function resetRewards() {
-            MANUAL_REWARDS.forEach(r => r.claimed = false);
-            renderList();
+        // AUTO-ROTATE EVERY 5 SECONDS
+        function startRotation() {
+            setInterval(() => {
+                currentQuoteIndex = (currentQuoteIndex + 1) % QUOTES.length;
+                currentFactIndex = (currentFactIndex + 1) % FACTS.length;
+                currentPropIndex = (currentPropIndex + 1) % PROPAGANDAS.length;
+                
+                // Refresh active view if it's one of the rotating ones
+                if (['quotes', 'facts', 'progress'].includes(activeView)) {
+                    renderList();
+                }
+            }, 5000);
         }
 
         function setView(view) {
@@ -192,48 +209,37 @@
             const search = document.getElementById('searchInput').value.toLowerCase();
             container.innerHTML = "";
 
-            if (activeView === 'rewards') {
-                container.innerHTML = `<h2 class="text-xs font-black text-primary uppercase mb-4 tracking-widest text-center">Active Rewards (Bla³ Bleu³)</h2>`;
-                const visibleRewards = MANUAL_REWARDS.filter(r => !r.claimed && (r.title.toLowerCase().includes(search) || r.statement.toLowerCase().includes(search)));
-                
-                if(visibleRewards.length === 0) {
-                    container.innerHTML += `<p class="text-center opacity-40 text-[10px]">NO PENDING REWARDS AVAILABLE.</p>`;
-                }
+            if (activeView === 'progress') {
+                container.innerHTML = `<div class="red-glass p-12 text-center border-t-4 border-primary shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+                    <h2 class="text-[10px] text-primary mb-6 tracking-[0.3em] font-black uppercase">Official State Propaganda</h2>
+                    <p class="text-lg md:text-2xl font-black text-white italic tracking-tighter uppercase">"${PROPAGANDAS[currentPropIndex]}"</p>
+                    <div class="mt-8 flex justify-center gap-1">
+                        ${PROPAGANDAS.map((_, i) => `<div class="h-1 w-4 ${i === currentPropIndex ? 'bg-primary' : 'bg-primary-dark'}"></div>`).join('')}
+                    </div>
+                </div>`;
+                return;
+            }
 
-                visibleRewards.forEach(r => {
-                    container.innerHTML += `
-                        <div class="red-glass p-4 mb-3 reward-btn flex justify-between items-center" onclick="claimReward('${r.id}')">
-                            <div class="space-y-1">
-                                <h3 class="text-[11px] font-black text-white uppercase">${r.title}</h3>
-                                <p class="text-[9px] text-primary opacity-80 italic">${r.statement}</p>
-                                <p class="text-[8px] opacity-40 uppercase">RELEASE DATE: ${r.date}</p>
-                            </div>
-                            <div class="text-[9px] font-black text-white bg-primary px-2 py-1 uppercase">Claim Reward</div>
-                        </div>`;
-                });
+            if (activeView === 'facts') {
+                container.innerHTML = `<div class="red-glass p-12 text-center">
+                    <h2 class="text-[9px] text-primary mb-4 tracking-widest uppercase opacity-60">National Historical Fact</h2>
+                    <p class="text-[14px] leading-relaxed text-white">"${FACTS[currentFactIndex]}"</p>
+                </div>`;
+                return;
+            }
+
+            if (activeView === 'quotes') {
+                const q = QUOTES[currentQuoteIndex];
+                container.innerHTML = `<div class="red-glass p-12 text-center">
+                    <h2 class="text-[9px] text-primary mb-4 tracking-widest uppercase opacity-60">Presidential Motivation</h2>
+                    <p class="text-[15px] italic text-white font-bold">"${q.text}"</p>
+                    <span class="text-[11px] text-primary mt-6 block font-black">— ${q.author}</span>
+                </div>`;
                 return;
             }
 
             if (activeView === 'converters') {
-                container.innerHTML = `
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="red-glass p-6 text-center">
-                            <h2 class="text-xs font-black text-primary uppercase mb-4">AET EXCHANGE</h2>
-                            <div class="flex flex-col items-center gap-3">
-                                <input type="number" id="inputA" oninput="handlePointConv()" class="conv-input" placeholder="${ptsToAet ? 'Points' : 'AET'}">
-                                <div class="swap-btn" onclick="ptsToAet = !ptsToAet; renderList();"><i class="fas fa-sync-alt"></i></div>
-                                <input type="text" id="inputB" class="conv-input" readonly placeholder="Result">
-                            </div>
-                        </div>
-                        <div class="red-glass p-6 text-center">
-                            <h2 class="text-xs font-black text-primary uppercase mb-4">PHP CONVERTER</h2>
-                            <div class="flex flex-col items-center gap-3">
-                                <input type="number" id="inputC" oninput="handlePhpConv()" class="conv-input" placeholder="${aetToPhp ? 'AET' : 'PHP'}">
-                                <div class="swap-btn" onclick="aetToPhp = !aetToPhp; renderList();"><i class="fas fa-sync-alt"></i></div>
-                                <input type="text" id="inputD" class="conv-input" readonly placeholder="Result">
-                            </div>
-                        </div>
-                    </div>`;
+                container.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="red-glass p-6 text-center"><h2 class="text-xs font-black text-primary uppercase mb-4">AET EXCHANGE</h2><div class="flex flex-col items-center gap-3"><input type="number" id="inputA" oninput="handlePointConv()" class="conv-input" placeholder="${ptsToAet ? 'Points' : 'AET'}"><div class="swap-btn" onclick="ptsToAet = !ptsToAet; renderList();"><i class="fas fa-sync-alt"></i></div><input type="text" id="inputB" class="conv-input" readonly placeholder="Result"></div></div><div class="red-glass p-6 text-center"><h2 class="text-xs font-black text-primary uppercase mb-4">PHP CONVERTER</h2><div class="flex flex-col items-center gap-3"><input type="number" id="inputC" oninput="handlePhpConv()" class="conv-input" placeholder="${aetToPhp ? 'AET' : 'PHP'}"><div class="swap-btn" onclick="aetToPhp = !aetToPhp; renderList();"><i class="fas fa-sync-alt"></i></div><input type="text" id="inputD" class="conv-input" readonly placeholder="Result"></div></div></div>`;
                 return;
             }
 
@@ -256,29 +262,10 @@
                 EVENTS.filter(e => e.title.toLowerCase().includes(search)).forEach(e => {
                     container.innerHTML += `<div class="red-glass p-6 mb-4 border-r-4 border-primary"><div class="flex justify-between items-start"><h2 class="text-sm font-black text-primary uppercase tracking-widest">${e.title}</h2><span class="text-[9px] bg-primary-dark px-2 py-1">${e.date}</span></div><p class="text-[11px] opacity-80 mt-2 italic">"${e.desc}"</p></div>`;
                 });
-            } else if (activeView === 'facts') {
-                container.innerHTML = `<div class="red-glass p-12 text-center"><p class="text-[13px] italic">"${FACTS[currentFactIndex]}"</p></div>`;
-            } else if (activeView === 'quotes') {
-                const q = QUOTES[currentQuoteIndex];
-                container.innerHTML = `<div class="red-glass p-12 text-center"><p class="text-[14px] italic">"${q.text}"</p><span class="text-[11px] text-primary mt-4 block">— ${q.author}</span></div>`;
             }
         }
 
-        function claimReward(rewardId) {
-            const reward = MANUAL_REWARDS.find(r => r.id === rewardId);
-            if(reward) {
-                reward.claimed = true;
-                const amount = (Math.random() * (3.5 - 0.8) + 0.8).toFixed(2);
-                const id = "AET-" + Math.random().toString(36).substr(2, 9).toUpperCase();
-                document.getElementById('rewardAmountDisplay').innerText = `${amount} AET`;
-                document.getElementById('txnIdDisplay').innerText = `VERIFY ID: ${id}`;
-                document.getElementById('receiptOverlay').style.display = 'flex';
-                renderList(); // Update UI to remove the button
-            }
-        }
-
-        function closeReceipt() { document.getElementById('receiptOverlay').style.display = 'none'; }
-
+        // Standard Utility Functions
         function handlePointConv() {
             const val = parseFloat(document.getElementById('inputA').value) || 0;
             const res = document.getElementById('inputB');
@@ -297,7 +284,6 @@
             if(clock) clock.innerText = `LOCAL TIME : ${pht}`;
         }, 1000);
 
-        let currentNewsIndex = 0;
         function initNews() {
             const container = document.getElementById('newsContainer');
             container.innerHTML = "";
@@ -307,20 +293,21 @@
                 div.innerText = text;
                 container.appendChild(div);
             });
+            let idx = 0;
             setInterval(() => {
                 const items = document.querySelectorAll('.news-item');
                 items.forEach((item, i) => {
                     item.classList.remove('active');
-                    if (i === currentNewsIndex) item.classList.add('active');
+                    if (i === idx) item.classList.add('active');
                 });
-                currentNewsIndex = (currentNewsIndex + 1) % items.length;
+                idx = (idx + 1) % items.length;
             }, 3000);
         }
 
-        // Initialize
         applyTheme();
         initNews();
         renderList();
+        startRotation();
     </script>
 </body>
 </html>
