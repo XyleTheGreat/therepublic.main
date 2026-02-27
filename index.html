@@ -75,7 +75,7 @@
             <button onclick="setView('quotes')" id="btnQuote" class="nav-button py-2 font-bold uppercase">Motivational Quotes</button>
             <button onclick="setView('events')" id="btnEvent" class="nav-button py-2 font-bold uppercase">National Events</button>
             <button onclick="setView('rewards')" id="btnReward" class="nav-button py-2 font-bold uppercase">The Bla³ Bleu³</button>
-            <button onclick="setView('facts')" id="btnFact" class="nav-button py-2 font-bold uppercase">National Historical Facts</button>
+            <button onclick="setView('facts')" id="btnFact" class="nav-button py-2 font-bold uppercase">Historical Facts</button>
             <button onclick="setView('converters')" id="btnConv" class="nav-button py-2 font-bold uppercase">Converters</button>
         </div>
         <div class="red-glass p-2 rounded flex gap-2 items-center">
@@ -122,7 +122,7 @@
             { id: "004", name: "JMO", address: "Central District, Avar Tares", status: "Minister of Agriculture", points: 3.6 },
             { id: "005", name: "HGC", address: "Lunarea Uno, Lunarea", status: "Citizen", points: 134.95 },
             { id: "006", name: "CS", address: "Lunarea Uno, Lunarea", status: "Minister of Transportation", points: 52.7 },
-            { id: "007", name: "MVER", address: "Anwar, Yepertaristoshve", status: "Citizen", points: 31.5 },
+            { id: "007", name: "MVER", address: "Anwar, Yepertaristoshve", status: "Citizen", points: 31.8 },
             { id: "008", name: "RAP", address: "Cadagaya, Laundon", status: "Citizen", points: 4.8 },
             { id: "009", name: "LM", address: "Kartava Uno, Avar Tares", status: "Citizen", points: 2.7 },
             { id: "010", name: "JPL", address: "Sentro Tinin-ayon, Tinin-ayon", status: "Citizen", points: 0 },
@@ -153,7 +153,8 @@
             "Dersavica, a city-state owned by two leaders, Antales and Aesthrella, is not fully an Aesthrellan region, so it only received diplomatic and name recognition but doesn't recognized as a part of the Aesthrellan jurisdiction.",
             "The interim government of the People's Republic of Aesthrella strictly prohibits dual-citizenship.", 
             "The shortest term for Vice President goes to Former Vice President Elaine Valmadrid, who only ruled for 3 days.",
-            "June is considered the <i>Freedom Month</i>."
+            "June is considered the <i>Freedom Month</i>.",
+            "The People's Republic of Aesthrella once declared itself as a Democratic Republic having Reynaldo Reynancia as its 1st Vice President of the First Democratic Republic and 2nd Vice President next to Elaine Valmadrid."
         ];
 
         const PROPAGANDAS = [
@@ -196,7 +197,7 @@
                 if (['quotes', 'facts', 'progress'].includes(activeView)) {
                     renderList();
                 }
-            }, 5000);
+            }, 10000);
         }
 
         function setView(view) {
