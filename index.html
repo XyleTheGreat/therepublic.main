@@ -105,10 +105,12 @@
 
     <script>
         const THEME_CONFIG = {
-            current: 'red', 
+            current: 'purple', 
             colors: {
                 red:    { primary: '#ef4444', dark: '#450a0a', soft: '#7f1d1d', bg: '#0d0101' },
-                black:  { primary: '#171717', dark: '#0a0a0a', soft: '#262626', bg: '#020202' },
+                black:  { primary: '#171717', dark: '#0a0a0a', soft: '#262626', bg: '#000000' },
+                pink: { primary: '#E958A6', dark: '#C34A8A', soft: '#F5B7D8', bg: '#FAECF4' },
+                magenta: { primary: '#e83e8c', dark: '#bc145a', soft: '#f3a6c8', bg: '#fceef5' },
                 blue:   { primary: '#3b82f6', dark: '#172554', soft: '#1e3a8a', bg: '#01080d' },
                 green:  { primary: '#22c55e', dark: '#052e16', soft: '#14532d', bg: '#010d04' },
                 yellow: { primary: '#eab308', dark: '#422006', soft: '#713f12', bg: '#0d0d01' },
@@ -118,13 +120,13 @@
 
         const CITIZENS = [
             { id: "002", name: "JRL", address: "Lunarea Uno, Lunarea", status: "Minister of Foreign Affairs", points: 42.6 },
-            { id: "003", name: "KKA", address: "Central District, Avar Tares", status: "Citizen", points: 11.4 },
+            { id: "003", name: "KKA", address: "Central District, Avar Tares", status: "Citizen", points: 11.7 },
             { id: "004", name: "JMO", address: "Central District, Avar Tares", status: "Minister of Agriculture", points: 3.6 },
             { id: "005", name: "HGC", address: "Lunarea Uno, Lunarea", status: "Citizen", points: 134.95 },
             { id: "006", name: "CS", address: "Lunarea Uno, Lunarea", status: "Minister of Transportation", points: 52.7 },
             { id: "007", name: "MVER", address: "Anwar, Yepertaristoshve", status: "Citizen", points: 31.8 },
             { id: "008", name: "RAP", address: "Cadagaya, Laundon", status: "Citizen", points: 4.8 },
-            { id: "009", name: "LM", address: "Kartava Uno, Avar Tares", status: "Citizen", points: 2.7 },
+            { id: "009", name: "LM", address: "Kartava Uno, Avar Tares", status: "Citizen", points: 3 },
             { id: "010", name: "JPL", address: "Sentro Tinin-ayon, Tinin-ayon", status: "Citizen", points: 0 },
             { id: "011", name: "JB", address: "Kartava Dos, Avar Tares", status: "Citizen", points: 3.3 }
         ];
@@ -165,7 +167,12 @@
             "GLORY TO THE PEOPLE'S REPUBLIC."
         ];
 
-        const EVENTS = [{ title: "Vath-ak-Corred", date: "Whole Month of February", desc: "The month of love for the People's Republic of Aesthrella." }];
+        const EVENTS = [{ title: "Ashed Velaja Vath-uka", date: "Whole Month of March", desc: "The national month for recognizing the strengths, abilities, and profound excellence of all women and girls of the People's Republic of Aesthrella." },
+            { title: "Ader-ashed Velaja Deir-aka", date: "March 8", desc: "The People's Republic of Aesthrella recognized March 8 as the International Women's Day." },
+            { title: "Deir-ak-Talassa", date: "March 9", desc: "The <i>Araw ng Kagitingan</i> of Aesthrella. The national day in honoring all professionals who fought for our nation in a small or in a big way possible." },
+            { title: "Ader-ashed Deir-ak-Vusvatawa", date: "March 20", desc: "The national day for happiness and spreading peace and joy of the People's Republic of Aesthrella." },
+            { title: "Sakker Posada Deir-aka", date: "March 21", desc: "H.E. Naquila declares March 21 as the World Poetry Day. He is a poet and a writer, so he declared it to recognize the writers and poets in his nation." }
+        ];
 
         let activeView = 'registry';
         let currentQuoteIndex = 0;
